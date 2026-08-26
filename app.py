@@ -627,9 +627,9 @@ if LOTTIE_LOADED:
 st.markdown("<div style='margin-top:8px;'></div>", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  TABS: Charts / Audit Log / Exceptions / 3D View
+#  TABS: Charts / Audit Log / Exceptions / 3D View / Try It Live
 # ══════════════════════════════════════════════════════════════════════════════
-tab1, tab2, tab3, tab4 = st.tabs(["📊 Analytics", "📋 Audit Log", "⚠️ Exceptions", "🌐 3D View"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📊 Analytics", "📋 Audit Log", "⚠️ Exceptions", "🌐 3D View", "🚀 Try It Live"])
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  TAB 1: Analytics
@@ -1162,6 +1162,420 @@ window.addEventListener('resize',()=>{{
                 value=f"₹{r['recovered']:,.0f}",
                 delta=f"{rate:.1f}% of ₹{r['at_risk']:,.0f}",
             )
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  TAB 5: Try It Live
+# ══════════════════════════════════════════════════════════════════════════════
+with tab5:
+    import io
+    import csv as _csv
+    import random as _random
+    import time as _time
+    from agent.classifier import classify_failure
+    from agent.guardrails import reset_state, check_guardrails, record_attempt
+    from agent.decision import decide_intervention
+    from agent.executor import execute_intervention
+
+    # ── Section header ────────────────────────────────────────────────────────
+    st.markdown("""
+    <div style="background:linear-gradient(135deg,rgba(79,142,247,0.08),rgba(0,212,170,0.05));
+                border:1px solid rgba(79,142,247,0.18);border-radius:18px;
+                padding:28px 36px;margin-bottom:28px;position:relative;overflow:hidden;">
+      <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;
+                  letter-spacing:.1em;color:#4f8ef7;margin-bottom:10px;">Live Agent Demo</div>
+      <div style="font-size:1.6rem;font-weight:800;color:#f1f5f9;letter-spacing:-.02em;
+                  margin-bottom:8px;">🚀 Try the Recovery Agent in Real Time</div>
+      <div style="color:#94a3b8;font-size:0.9rem;line-height:1.6;max-width:600px;">
+        Feed a single record or upload a batch CSV — watch the agent classify, apply guardrails,
+        choose an intervention, and generate bilingual outreach messages live.
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ══════════════════════════════════════════════════════════════════════════
+    #  PART 1 — Single record live demo
+    # ══════════════════════════════════════════════════════════════════════════
+    st.markdown('<div class="section-title">🎯 Single Record Demo</div>'
+                '<div class="section-sub">Run one payment record through the agent and see the decision instantly</div>',
+                unsafe_allow_html=True)
+
+    with st.form(key="live_demo_form", border=False):
+        fc1, fc2 = st.columns([2, 1])
+        with fc1:
+            demo_name = st.text_input(
+                "Customer Name",
+                value="Priya Sharma",
+                placeholder="Enter customer name...",
+            )
+        with fc2:
+            demo_amount = st.number_input(
+                "Amount (INR ₹)",
+                min_value=0.0,
+                max_value=500000.0,
+                value=1000.0,
+                step=100.0,
+                format="%.2f",
+            )
+
+        fc3, fc4 = st.columns(2)
+        with fc3:
+            demo_reason = st.selectbox(
+                "Failure Reason",
+                options=[
+                    "card_declined", "insufficient_funds", "expired_card",
+                    "bank_timeout", "already_refunded", "duplicate_charge",
+                ],
+                index=0,
+            )
+        with fc4:
+            demo_tier_mode = st.selectbox(
+                "Customer Tier",
+                options=["Auto-derive from amount (≥ ₹5,000 = high)", "high", "low"],
+                index=0,
+            )
+
+        demo_retry = st.slider("Prior retry count", 0, 3, 0)
+        run_btn = st.form_submit_button(
+            "⚡ Run Agent",
+            use_container_width=True,
+            type="primary",
+        )
+
+    if run_btn:
+        # Derive tier
+        if demo_tier_mode.startswith("Auto"):
+            demo_tier = "high" if demo_amount >= 5000 else "low"
+        else:
+            demo_tier = demo_tier_mode
+
+        demo_record = {
+            "customer_id":   f"DEMO{_random.randint(1000,9999)}",
+            "customer_name": demo_name or "Anonymous",
+            "amount":        float(demo_amount),
+            "failure_reason": demo_reason,
+            "failed_at":     pd.Timestamp.now().isoformat()[:19],
+            "retry_count":   demo_retry,
+            "customer_tier": demo_tier,
+        }
+
+        with st.spinner("🤖 Agent is thinking..."):
+            reset_state()
+            _time.sleep(0.7)          # deliberate pause — "wow" moment
+            decision   = decide_intervention(demo_record)
+            exec_result = execute_intervention(demo_record, decision)
+
+        # ── Result card ────────────────────────────────────────────────────
+        outcome  = exec_result["outcome"]
+        action   = decision["action"]
+        variant  = decision["variant"]
+        fc_label = decision["failure_class"].replace("_", " ").title()
+
+        OUTCOME_COLOR = {"success": "#00d4aa", "failed": "#ff4d6d", "skipped": "#f59e0b"}
+        OUTCOME_ICON  = {"success": "✅", "failed": "❌", "skipped": "⏭️"}
+        ACTION_COLOR  = {
+            "immediate_retry":    "#4f8ef7",
+            "retry_in_3_days":    "#a855f7",
+            "send_payment_update":"#00d4aa",
+            "escalate_human":     "#f59e0b",
+        }
+        oc   = OUTCOME_COLOR.get(outcome, "#94a3b8")
+        oi   = OUTCOME_ICON.get(outcome, "⚪")
+        ac   = ACTION_COLOR.get(action, "#94a3b8")
+        lang = st.session_state.get("_live_lang", "English")  # respect sidebar toggle
+
+        st.markdown(f"""
+        <div style="background:linear-gradient(135deg,rgba(15,22,35,0.9),rgba(20,30,48,0.9));
+                    border:1px solid rgba(79,142,247,0.2);border-radius:16px;
+                    padding:28px 32px;margin-top:16px;
+                    animation:fade-in 0.4s ease both;">
+
+          <!-- Header row -->
+          <div style="display:flex;justify-content:space-between;align-items:center;
+                      margin-bottom:20px;padding-bottom:16px;
+                      border-bottom:1px solid rgba(255,255,255,0.06);">
+            <div>
+              <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;
+                          letter-spacing:.1em;color:#64748b;">Agent Decision</div>
+              <div style="font-size:1.2rem;font-weight:800;color:{ac};margin-top:4px;">
+                {action.replace('_',' ').title()}
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;
+                          letter-spacing:.1em;color:#64748b;">Outcome</div>
+              <div style="font-size:1.2rem;font-weight:800;color:{oc};margin-top:4px;">
+                {oi} {outcome.upper()}
+              </div>
+            </div>
+          </div>
+
+          <!-- Detail grid -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;
+                      margin-bottom:20px;">
+            <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px 14px;">
+              <div style="font-size:0.67rem;font-weight:700;text-transform:uppercase;
+                          letter-spacing:.08em;color:#475569;margin-bottom:5px;">Customer</div>
+              <div style="font-weight:600;color:#f1f5f9;font-size:0.9rem;">{demo_record['customer_name']}</div>
+              <div style="font-size:0.75rem;color:#64748b;margin-top:2px;">{demo_record['customer_id']}</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px 14px;">
+              <div style="font-size:0.67rem;font-weight:700;text-transform:uppercase;
+                          letter-spacing:.08em;color:#475569;margin-bottom:5px;">Amount</div>
+              <div style="font-weight:800;color:#00d4aa;font-size:1.05rem;">&#8377;{float(demo_amount):,.2f}</div>
+              <div style="font-size:0.75rem;color:#64748b;margin-top:2px;">{demo_tier.upper()} TIER</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px 14px;">
+              <div style="font-size:0.67rem;font-weight:700;text-transform:uppercase;
+                          letter-spacing:.08em;color:#475569;margin-bottom:5px;">Failure Class</div>
+              <div style="font-weight:600;color:#f1f5f9;font-size:0.85rem;">{fc_label}</div>
+              <div style="font-size:0.75rem;color:#64748b;margin-top:2px;">{demo_reason.replace('_',' ').title()}</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px 14px;">
+              <div style="font-size:0.67rem;font-weight:700;text-transform:uppercase;
+                          letter-spacing:.08em;color:#475569;margin-bottom:5px;">A/B Variant</div>
+              <div style="font-weight:700;color:#a855f7;font-size:1rem;">{variant}</div>
+              <div style="font-size:0.75rem;color:#64748b;margin-top:2px;">{'Urgency-framed' if variant=='B' else 'Standard' if variant=='A' else 'N/A'}</div>
+            </div>
+          </div>
+
+          <!-- Reasoning -->
+          <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.12);
+                      border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+            <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;
+                        letter-spacing:.08em;color:#4f8ef7;margin-bottom:6px;">Reasoning</div>
+            <div style="color:#cbd5e1;font-size:0.85rem;line-height:1.6;">{decision['reasoning']}</div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # ── Outreach messages ──────────────────────────────────────────────
+        st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+        msg_col1, msg_col2 = st.columns(2)
+        with msg_col1:
+            st.markdown('<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;'
+                        'letter-spacing:.08em;color:#64748b;margin-bottom:6px;">📧 English Message</div>',
+                        unsafe_allow_html=True)
+            st.info(decision["messages"].get("english", "—"))
+        with msg_col2:
+            st.markdown('<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;'
+                        'letter-spacing:.08em;color:#64748b;margin-bottom:6px;">🇮🇳 Hinglish Message</div>',
+                        unsafe_allow_html=True)
+            st.info(decision["messages"].get("hinglish", "—"))
+
+    st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+    st.divider()
+
+    # ══════════════════════════════════════════════════════════════════════════
+    #  PARTS 2 & 3 — Batch CSV upload + real-time simulation
+    # ══════════════════════════════════════════════════════════════════════════
+    st.markdown('<div class="section-title">📂 Batch CSV Upload</div>'
+                '<div class="section-sub">Upload a CSV of failed payments and run the full agent pipeline on every row</div>',
+                unsafe_allow_html=True)
+
+    # ── Sample CSV download ────────────────────────────────────────────────
+    SAMPLE_ROWS = [
+        ["customer_name",  "amount",  "failure_reason"],
+        ["Aarav Sharma",    6500.00,  "card_declined"],
+        ["Priya Verma",      850.00,  "insufficient_funds"],
+        ["Rohit Patel",    12000.00,  "bank_timeout"],
+        ["Sneha Singh",      120.00,  "insufficient_funds"],
+        ["Vikram Gupta",   8750.00,  "expired_card"],
+    ]
+    sample_buf = io.StringIO()
+    _csv.writer(sample_buf).writerows(SAMPLE_ROWS)
+    st.download_button(
+        "⬇️ Download sample CSV",
+        data=sample_buf.getvalue().encode(),
+        file_name="sample_batch.csv",
+        mime="text/csv",
+        help="Download a 5-row example with the expected column format",
+    )
+
+    # ── Simulation toggle ──────────────────────────────────────────────────
+    simulate_live = st.checkbox(
+        "🎬 Simulate live processing (reveal rows one-by-one with progress bar)",
+        value=False,
+        help="Enable for demo recordings — adds a short delay per row to show the agent 'working'",
+    )
+
+    # ── File uploader ──────────────────────────────────────────────────────
+    uploaded_file = st.file_uploader(
+        "Upload your CSV",
+        type=["csv"],
+        help="Columns required: customer_name, amount, failure_reason",
+        label_visibility="collapsed",
+    )
+
+    REQUIRED_COLS = {"customer_name", "amount", "failure_reason"}
+
+    if uploaded_file is not None:
+        # Parse
+        try:
+            batch_df = pd.read_csv(uploaded_file)
+        except Exception as e:
+            st.error(f"❌ Could not parse CSV: {e}")
+            st.stop()
+
+        missing = REQUIRED_COLS - set(batch_df.columns.str.strip().str.lower())
+        if missing:
+            st.error(
+                f"❌ CSV is missing required columns: **{', '.join(sorted(missing))}**  \n"
+                f"Expected: `customer_name`, `amount`, `failure_reason`"
+            )
+            st.stop()
+
+        batch_df.columns = batch_df.columns.str.strip().str.lower()
+        batch_df["amount"] = pd.to_numeric(batch_df["amount"], errors="coerce").fillna(0)
+
+        st.success(f"✅ Loaded **{len(batch_df)} rows** — running agent pipeline...")
+
+        # ── Build records ──────────────────────────────────────────────────
+        def _make_record(row, idx):
+            amt = float(row["amount"])
+            return {
+                "customer_id":    f"BATCH{idx:04d}",
+                "customer_name":  str(row.get("customer_name", f"Customer {idx}")),
+                "amount":         amt,
+                "failure_reason": str(row.get("failure_reason", "card_declined")).strip().lower(),
+                "failed_at":      pd.Timestamp.now().isoformat()[:19],
+                "retry_count":    int(row.get("retry_count", 0)) if "retry_count" in row else 0,
+                "customer_tier":  "high" if amt >= 5000 else "low",
+            }
+
+        records = [_make_record(batch_df.iloc[i], i + 1) for i in range(len(batch_df))]
+
+        # ── Run pipeline ───────────────────────────────────────────────────
+        reset_state()
+        batch_audit = []
+        SKIP_ACTIONS = {
+            "skip_non_retryable", "skip_invalid_data",
+            "skip_cost_floor", "skip_max_attempts", "skip_guardrail",
+        }
+
+        if simulate_live:
+            prog_bar   = st.progress(0, text="Starting agent...")
+            result_ph  = st.empty()
+            partial_rows = []
+            total = len(records)
+
+            for i, rec in enumerate(records):
+                dec  = decide_intervention(rec)
+                exr  = execute_intervention(rec, dec)
+                row  = {
+                    "customer_id":    rec["customer_id"],
+                    "customer_name":  rec["customer_name"],
+                    "amount":         f"\u20b9{rec['amount']:,.2f}",
+                    "failure_reason": rec["failure_reason"],
+                    "tier":           rec["customer_tier"],
+                    "action":         dec["action"],
+                    "variant":        dec["variant"],
+                    "outcome":        exr["outcome"],
+                    "reasoning":      dec["reasoning"],
+                }
+                partial_rows.append(row)
+                batch_audit.append({**rec,
+                    "action_taken": dec["action"], "variant": dec["variant"],
+                    "outcome": exr["outcome"], "reasoning": dec["reasoning"],
+                    "failure_class": dec["failure_class"],
+                    "msg_english": dec["messages"].get("english",""),
+                    "msg_hinglish": dec["messages"].get("hinglish",""),
+                })
+                pct = (i + 1) / total
+                prog_bar.progress(pct, text=f"Processing {i+1}/{total} — {rec['customer_name']}")
+                result_ph.dataframe(
+                    pd.DataFrame(partial_rows),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+                _time.sleep(0.3)
+
+            prog_bar.progress(1.0, text=f"Done — {total} records processed")
+
+        else:  # instant mode
+            with st.spinner("Running agent on all rows..."):
+                for i, rec in enumerate(records):
+                    dec = decide_intervention(rec)
+                    exr = execute_intervention(rec, dec)
+                    batch_audit.append({**rec,
+                        "action_taken": dec["action"], "variant": dec["variant"],
+                        "outcome": exr["outcome"], "reasoning": dec["reasoning"],
+                        "failure_class": dec["failure_class"],
+                        "msg_english": dec["messages"].get("english",""),
+                        "msg_hinglish": dec["messages"].get("hinglish",""),
+                    })
+
+            display_rows = [{
+                "customer_id":   r["customer_id"],
+                "customer_name": r["customer_name"],
+                "amount":        f"\u20b9{r['amount']:,.2f}",
+                "failure_reason":r["failure_reason"],
+                "tier":          r["customer_tier"],
+                "action":        r["action_taken"],
+                "variant":       r["variant"],
+                "outcome":       r["outcome"],
+                "reasoning":     r["reasoning"],
+            } for r in batch_audit]
+            st.dataframe(pd.DataFrame(display_rows), use_container_width=True, hide_index=True)
+
+        # ── Batch headline metrics ─────────────────────────────────────────
+        b_at_risk = sum(
+            r["amount"] for r in batch_audit
+            if r["action_taken"] not in SKIP_ACTIONS and r["outcome"] != "skipped"
+        )
+        b_recovered = sum(
+            r["amount"] for r in batch_audit
+            if r["outcome"] == "success"
+        )
+        b_rate = (b_recovered / b_at_risk * 100) if b_at_risk > 0 else 0.0
+        b_skipped = sum(1 for r in batch_audit if r["outcome"] == "skipped")
+
+        st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
+        st.markdown('<div class="section-title">📊 Batch Results</div>', unsafe_allow_html=True)
+        bm1, bm2, bm3, bm4 = st.columns(4)
+        with bm1:
+            st.markdown(f"""
+            <div class="metric-card red" style="min-height:110px;">
+              <div class="metric-icon">⚠️</div>
+              <div class="metric-label">Batch at Risk</div>
+              <div class="metric-value" style="font-size:1.5rem;">&#8377;{b_at_risk:,.0f}</div>
+              <div class="metric-sub">{len(batch_audit)} rows total</div>
+            </div>""", unsafe_allow_html=True)
+        with bm2:
+            st.markdown(f"""
+            <div class="metric-card green" style="min-height:110px;">
+              <div class="metric-icon">✅</div>
+              <div class="metric-label">Batch Recovered</div>
+              <div class="metric-value" style="font-size:1.5rem;">&#8377;{b_recovered:,.0f}</div>
+              <div class="metric-sub">estimated from mock outcomes</div>
+            </div>""", unsafe_allow_html=True)
+        with bm3:
+            st.markdown(f"""
+            <div class="metric-card {'green' if b_rate >= 70 else 'blue'}" style="min-height:110px;">
+              <div class="metric-icon">📈</div>
+              <div class="metric-label">Recovery Rate</div>
+              <div class="metric-value" style="font-size:1.5rem;">{b_rate:.1f}%</div>
+              <div class="metric-sub">{'🔥 Above 70% target!' if b_rate >= 70 else 'Below 70% target'}</div>
+            </div>""", unsafe_allow_html=True)
+        with bm4:
+            st.markdown(f"""
+            <div class="metric-card amber" style="min-height:110px;">
+              <div class="metric-icon">🚨</div>
+              <div class="metric-label">Skipped</div>
+              <div class="metric-value" style="font-size:1.5rem;">{b_skipped}</div>
+              <div class="metric-sub">guardrail / non-retryable</div>
+            </div>""", unsafe_allow_html=True)
+
+        # ── Download results ───────────────────────────────────────────────
+        results_df = pd.DataFrame(batch_audit)
+        results_csv = results_df.to_csv(index=False).encode()
+        st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+        st.download_button(
+            "⬇️ Download results CSV",
+            data=results_csv,
+            file_name="batch_results.csv",
+            mime="text/csv",
+        )
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  FOOTER
