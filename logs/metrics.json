@@ -1,0 +1,352 @@
+{
+  "total_at_risk": 668772.67,
+  "total_recovered": 452273.24,
+  "recovery_rate_pct": 67.63,
+  "ab_stats": {
+    "A": {
+      "attempts": 6,
+      "recovered": 5,
+      "amount_recovered": 16602.519999999997,
+      "recovery_rate": 83.33333333333334
+    },
+    "B": {
+      "attempts": 10,
+      "recovered": 8,
+      "amount_recovered": 24593.409999999996,
+      "recovery_rate": 80.0
+    }
+  },
+  "reason_stats": {
+    "expired_card": {
+      "attempts": 15,
+      "recovered": 10,
+      "amount_at_risk": 159325.67000000004,
+      "amount_recovered": 116351.07999999999,
+      "recovery_rate": 66.66666666666666
+    },
+    "card_declined": {
+      "attempts": 21,
+      "recovered": 14,
+      "amount_at_risk": 192665.37,
+      "amount_recovered": 122368.3,
+      "recovery_rate": 66.66666666666666
+    },
+    "bank_timeout": {
+      "attempts": 17,
+      "recovered": 12,
+      "amount_at_risk": 125745.03,
+      "amount_recovered": 84901.22,
+      "recovery_rate": 70.58823529411765
+    },
+    "insufficient_funds": {
+      "attempts": 19,
+      "recovered": 15,
+      "amount_at_risk": 191036.6,
+      "amount_recovered": 128652.63999999998,
+      "recovery_rate": 78.94736842105263
+    }
+  },
+  "exceptions": [
+    {
+      "customer_id": "CUST9006",
+      "customer_name": "Ananya Malhotra",
+      "amount": 0.0,
+      "reason": "card_declined",
+      "action": "skip_invalid_data",
+      "explanation": "Invalid data: zero or negative amount — hard skip"
+    },
+    {
+      "customer_id": "CUST9005",
+      "customer_name": "Rohan Agarwal",
+      "amount": 12000.0,
+      "reason": "duplicate_charge",
+      "action": "skip_non_retryable",
+      "explanation": "Non-retryable (duplicate_charge) — logged and skipped per policy"
+    },
+    {
+      "customer_id": "CUST9002",
+      "customer_name": "Kunal Pillai",
+      "amount": 7999.0,
+      "reason": "already_refunded",
+      "action": "skip_non_retryable",
+      "explanation": "Non-retryable (already_refunded) — logged and skipped per policy"
+    },
+    {
+      "customer_id": "CUST9004",
+      "customer_name": "Arjun Agarwal",
+      "amount": 4999.0,
+      "reason": "duplicate_charge",
+      "action": "skip_non_retryable",
+      "explanation": "Non-retryable (duplicate_charge) — logged and skipped per policy"
+    },
+    {
+      "customer_id": "CUST9007",
+      "customer_name": "Sanya Mehta",
+      "amount": -500.0,
+      "reason": "bank_timeout",
+      "action": "skip_invalid_data",
+      "explanation": "Invalid data: zero or negative amount — hard skip"
+    },
+    {
+      "customer_id": "CUST9003",
+      "customer_name": "Mohit Shah",
+      "amount": 99.0,
+      "reason": "already_refunded",
+      "action": "skip_non_retryable",
+      "explanation": "Non-retryable (already_refunded) — logged and skipped per policy"
+    },
+    {
+      "customer_id": "CUST9001",
+      "customer_name": "Aman Kumar",
+      "amount": 2499.0,
+      "reason": "already_refunded",
+      "action": "skip_non_retryable",
+      "explanation": "Non-retryable (already_refunded) — logged and skipped per policy"
+    },
+    {
+      "customer_id": "CUST9008",
+      "customer_name": "Rahul Sharma",
+      "amount": 120.0,
+      "reason": "insufficient_funds",
+      "action": "skip_cost_floor",
+      "explanation": "Cost-of-recovery skip: amount ₹120.00 < floor ₹150.0 and retry_count=2 ≥ 2"
+    }
+  ],
+  "exception_count": 8,
+  "time_series": [
+    {
+      "date": "2026-07-01",
+      "daily_recovered": 5025.41,
+      "cumulative_recovered": 5025.41,
+      "cumulative_rate": 0.75
+    },
+    {
+      "date": "2026-07-04",
+      "daily_recovered": 3728.43,
+      "cumulative_recovered": 8753.84,
+      "cumulative_rate": 1.31
+    },
+    {
+      "date": "2026-07-05",
+      "daily_recovered": 2792.85,
+      "cumulative_recovered": 11546.69,
+      "cumulative_rate": 1.73
+    },
+    {
+      "date": "2026-07-06",
+      "daily_recovered": 10193.59,
+      "cumulative_recovered": 21740.28,
+      "cumulative_rate": 3.25
+    },
+    {
+      "date": "2026-07-07",
+      "daily_recovered": 5187.99,
+      "cumulative_recovered": 26928.269999999997,
+      "cumulative_rate": 4.03
+    },
+    {
+      "date": "2026-07-08",
+      "daily_recovered": 22156.39,
+      "cumulative_recovered": 49084.659999999996,
+      "cumulative_rate": 7.34
+    },
+    {
+      "date": "2026-07-09",
+      "daily_recovered": 0.0,
+      "cumulative_recovered": 49084.659999999996,
+      "cumulative_rate": 7.34
+    },
+    {
+      "date": "2026-07-10",
+      "daily_recovered": 34575.28,
+      "cumulative_recovered": 83659.94,
+      "cumulative_rate": 12.51
+    },
+    {
+      "date": "2026-07-14",
+      "daily_recovered": 10455.09,
+      "cumulative_recovered": 94115.03,
+      "cumulative_rate": 14.07
+    },
+    {
+      "date": "2026-07-15",
+      "daily_recovered": 12423.93,
+      "cumulative_recovered": 106538.95999999999,
+      "cumulative_rate": 15.93
+    },
+    {
+      "date": "2026-07-16",
+      "daily_recovered": 0.0,
+      "cumulative_recovered": 106538.95999999999,
+      "cumulative_rate": 15.93
+    },
+    {
+      "date": "2026-07-17",
+      "daily_recovered": 19296.55,
+      "cumulative_recovered": 125835.51,
+      "cumulative_rate": 18.82
+    },
+    {
+      "date": "2026-07-19",
+      "daily_recovered": 13869.83,
+      "cumulative_recovered": 139705.34,
+      "cumulative_rate": 20.89
+    },
+    {
+      "date": "2026-07-20",
+      "daily_recovered": 15090.9,
+      "cumulative_recovered": 154796.24,
+      "cumulative_rate": 23.15
+    },
+    {
+      "date": "2026-07-22",
+      "daily_recovered": 7551.36,
+      "cumulative_recovered": 162347.59999999998,
+      "cumulative_rate": 24.28
+    },
+    {
+      "date": "2026-07-24",
+      "daily_recovered": 19930.28,
+      "cumulative_recovered": 182277.87999999998,
+      "cumulative_rate": 27.26
+    },
+    {
+      "date": "2026-07-25",
+      "daily_recovered": 16242.23,
+      "cumulative_recovered": 198520.11,
+      "cumulative_rate": 29.68
+    },
+    {
+      "date": "2026-07-26",
+      "daily_recovered": 0.0,
+      "cumulative_recovered": 198520.11,
+      "cumulative_rate": 29.68
+    },
+    {
+      "date": "2026-07-27",
+      "daily_recovered": 38969.84,
+      "cumulative_recovered": 237489.94999999998,
+      "cumulative_rate": 35.51
+    },
+    {
+      "date": "2026-07-28",
+      "daily_recovered": 11448.44,
+      "cumulative_recovered": 248938.38999999998,
+      "cumulative_rate": 37.22
+    },
+    {
+      "date": "2026-07-30",
+      "daily_recovered": 10846.44,
+      "cumulative_recovered": 259784.83,
+      "cumulative_rate": 38.85
+    },
+    {
+      "date": "2026-07-31",
+      "daily_recovered": 0.0,
+      "cumulative_recovered": 259784.83,
+      "cumulative_rate": 38.85
+    },
+    {
+      "date": "2026-08-04",
+      "daily_recovered": 9050.13,
+      "cumulative_recovered": 268834.95999999996,
+      "cumulative_rate": 40.2
+    },
+    {
+      "date": "2026-08-05",
+      "daily_recovered": 0.0,
+      "cumulative_recovered": 268834.95999999996,
+      "cumulative_rate": 40.2
+    },
+    {
+      "date": "2026-08-06",
+      "daily_recovered": 5200.63,
+      "cumulative_recovered": 274035.58999999997,
+      "cumulative_rate": 40.98
+    },
+    {
+      "date": "2026-08-07",
+      "daily_recovered": 20813.98,
+      "cumulative_recovered": 294849.56999999995,
+      "cumulative_rate": 44.09
+    },
+    {
+      "date": "2026-08-08",
+      "daily_recovered": 2961.47,
+      "cumulative_recovered": 297811.0399999999,
+      "cumulative_rate": 44.53
+    },
+    {
+      "date": "2026-08-09",
+      "daily_recovered": 33762.95,
+      "cumulative_recovered": 331573.98999999993,
+      "cumulative_rate": 49.58
+    },
+    {
+      "date": "2026-08-10",
+      "daily_recovered": 8765.39,
+      "cumulative_recovered": 340339.37999999995,
+      "cumulative_rate": 50.89
+    },
+    {
+      "date": "2026-08-11",
+      "daily_recovered": 10581.67,
+      "cumulative_recovered": 350921.04999999993,
+      "cumulative_rate": 52.47
+    },
+    {
+      "date": "2026-08-12",
+      "daily_recovered": 4811.65,
+      "cumulative_recovered": 355732.69999999995,
+      "cumulative_rate": 53.19
+    },
+    {
+      "date": "2026-08-14",
+      "daily_recovered": 3177.54,
+      "cumulative_recovered": 358910.23999999993,
+      "cumulative_rate": 53.67
+    },
+    {
+      "date": "2026-08-16",
+      "daily_recovered": 10534.46,
+      "cumulative_recovered": 369444.69999999995,
+      "cumulative_rate": 55.24
+    },
+    {
+      "date": "2026-08-19",
+      "daily_recovered": 12006.09,
+      "cumulative_recovered": 381450.79,
+      "cumulative_rate": 57.04
+    },
+    {
+      "date": "2026-08-20",
+      "daily_recovered": 34017.82,
+      "cumulative_recovered": 415468.61,
+      "cumulative_rate": 62.12
+    },
+    {
+      "date": "2026-08-21",
+      "daily_recovered": 9276.97,
+      "cumulative_recovered": 424745.57999999996,
+      "cumulative_rate": 63.51
+    },
+    {
+      "date": "2026-08-23",
+      "daily_recovered": 2169.49,
+      "cumulative_recovered": 426915.06999999995,
+      "cumulative_rate": 63.84
+    },
+    {
+      "date": "2026-08-24",
+      "daily_recovered": 2160.35,
+      "cumulative_recovered": 429075.4199999999,
+      "cumulative_rate": 64.16
+    },
+    {
+      "date": "2026-08-25",
+      "daily_recovered": 23197.82,
+      "cumulative_recovered": 452273.23999999993,
+      "cumulative_rate": 67.63
+    }
+  ]
+}

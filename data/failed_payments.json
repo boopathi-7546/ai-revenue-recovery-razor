@@ -1,0 +1,722 @@
+[
+  {
+    "customer_id": "CUST1042",
+    "customer_name": "Arjun Kapoor",
+    "amount": 10455.09,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-07-14T21:40:54",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1034",
+    "customer_name": "Bhavna Patel",
+    "amount": 2160.35,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-24T16:10:03",
+    "retry_count": 1,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1011",
+    "customer_name": "Mohit Malhotra",
+    "amount": 5200.63,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-08-06T22:20:13",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1056",
+    "customer_name": "Nikhil Shah",
+    "amount": 11646.02,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-08-14T09:35:08",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1049",
+    "customer_name": "Simran Mehta",
+    "amount": 5187.99,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-07T12:55:02",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1047",
+    "customer_name": "Divya Mehta",
+    "amount": 6398.71,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-25T13:39:47",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1055",
+    "customer_name": "Meera Reddy",
+    "amount": 7551.36,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-07-22T19:20:42",
+    "retry_count": 3,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1070",
+    "customer_name": "Yash Agarwal",
+    "amount": 16242.23,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-25T15:00:22",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1002",
+    "customer_name": "Jaya Sharma",
+    "amount": 10193.59,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-06T06:14:32",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST9006",
+    "customer_name": "Ananya Malhotra",
+    "amount": 0.0,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-02T23:34:03",
+    "retry_count": 2,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1066",
+    "customer_name": "Kavya Nair",
+    "amount": 17581.8,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-31T14:16:48",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1053",
+    "customer_name": "Tanya Pillai",
+    "amount": 6284.06,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-28T19:32:07",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1010",
+    "customer_name": "Rahul Rao",
+    "amount": 12006.09,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-08-19T01:14:52",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1029",
+    "customer_name": "Vikram Chaudhary",
+    "amount": 3545.32,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-30T07:55:59",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1019",
+    "customer_name": "Kavya Pillai",
+    "amount": 1384.1,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-08-23T09:15:03",
+    "retry_count": 3,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1058",
+    "customer_name": "Aman Chaudhary",
+    "amount": 5461.56,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-08-07T19:41:20",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1057",
+    "customer_name": "Gaurav Sharma",
+    "amount": 11856.64,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-08-09T18:19:25",
+    "retry_count": 3,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1050",
+    "customer_name": "Nisha Joshi",
+    "amount": 15090.9,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-20T07:14:01",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1018",
+    "customer_name": "Jaya Rao",
+    "amount": 3703.81,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-08-04T16:58:00",
+    "retry_count": 2,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1009",
+    "customer_name": "Tanya Nair",
+    "amount": 10534.46,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-16T07:10:29",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST9005",
+    "customer_name": "Rohan Agarwal",
+    "amount": 12000.0,
+    "failure_reason": "duplicate_charge",
+    "failed_at": "2026-07-18T13:16:53",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1006",
+    "customer_name": "Krish Iyer",
+    "amount": 21206.26,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-05T09:53:40",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1030",
+    "customer_name": "Tarun Mehta",
+    "amount": 2169.49,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-23T00:05:59",
+    "retry_count": 3,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1043",
+    "customer_name": "Ishaan Verma",
+    "amount": 4977.21,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-04T02:40:27",
+    "retry_count": 3,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1051",
+    "customer_name": "Bhavna Agarwal",
+    "amount": 6036.48,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-08-19T08:22:41",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1068",
+    "customer_name": "Divya Joshi",
+    "amount": 17432.43,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-07-10T07:24:44",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1036",
+    "customer_name": "Arjun Joshi",
+    "amount": 10725.4,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-07T18:33:20",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1067",
+    "customer_name": "Ishaan Rao",
+    "amount": 10864.22,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-05T22:18:15",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1012",
+    "customer_name": "Sarita Bhat",
+    "amount": 17142.85,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-10T08:08:15",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1065",
+    "customer_name": "Varun Bhat",
+    "amount": 19828.32,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-08-09T23:57:32",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1064",
+    "customer_name": "Gaurav Tiwari",
+    "amount": 18353.01,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-09T14:42:33",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1032",
+    "customer_name": "Poonam Bhat",
+    "amount": 22195.56,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-20T14:18:27",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1027",
+    "customer_name": "Mohit Singh",
+    "amount": 7433.35,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-08-16T01:43:41",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1001",
+    "customer_name": "Om Bhat",
+    "amount": 1555.13,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-15T04:47:06",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1069",
+    "customer_name": "Shreya Agarwal",
+    "amount": 7301.12,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-30T13:03:13",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1071",
+    "customer_name": "Akash Mehta",
+    "amount": 9276.97,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-08-21T19:57:14",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1054",
+    "customer_name": "Falak Joshi",
+    "amount": 5025.41,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-01T16:59:51",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1024",
+    "customer_name": "Vikram Kapoor",
+    "amount": 12493.71,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-05T01:55:21",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST9002",
+    "customer_name": "Kunal Pillai",
+    "amount": 7999.0,
+    "failure_reason": "already_refunded",
+    "failed_at": "2026-08-06T21:01:05",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1035",
+    "customer_name": "Hema Mehta",
+    "amount": 2508.53,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-08-25T07:25:07",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1023",
+    "customer_name": "Siddharth Sharma",
+    "amount": 4627.02,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-08-07T17:14:37",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1003",
+    "customer_name": "Ishaan Sharma",
+    "amount": 12670.0,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-27T07:28:37",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST9004",
+    "customer_name": "Arjun Agarwal",
+    "amount": 4999.0,
+    "failure_reason": "duplicate_charge",
+    "failed_at": "2026-07-21T06:29:20",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1008",
+    "customer_name": "Riya Nair",
+    "amount": 5339.46,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-24T05:23:22",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1039",
+    "customer_name": "Roshni Bhat",
+    "amount": 19022.58,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-16T11:18:10",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1063",
+    "customer_name": "Sneha Bhat",
+    "amount": 14108.6,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-21T22:33:29",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1062",
+    "customer_name": "Poonam Sharma",
+    "amount": 12720.61,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-26T07:09:41",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1052",
+    "customer_name": "Rahul Singh",
+    "amount": 19296.55,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-07-17T05:37:16",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1007",
+    "customer_name": "Siddharth Singh",
+    "amount": 12423.93,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-15T09:05:54",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1016",
+    "customer_name": "Aarav Nair",
+    "amount": 13869.83,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-07-19T13:10:29",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1041",
+    "customer_name": "Divya Nair",
+    "amount": 19282.15,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-08T03:47:35",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1045",
+    "customer_name": "Manav Pillai",
+    "amount": 3177.54,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-14T04:34:02",
+    "retry_count": 3,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1038",
+    "customer_name": "Bhavna Nair",
+    "amount": 7970.41,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-07T02:34:13",
+    "retry_count": 3,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1005",
+    "customer_name": "Rajat Chaudhary",
+    "amount": 2961.47,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-08-08T08:51:02",
+    "retry_count": 2,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1013",
+    "customer_name": "Karan Kapoor",
+    "amount": 13362.3,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-08-07T12:23:14",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1046",
+    "customer_name": "Riya Mehta",
+    "amount": 7528.2,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-24T01:57:22",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1026",
+    "customer_name": "Nisha Shah",
+    "amount": 4868.89,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-27T06:06:06",
+    "retry_count": 1,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1025",
+    "customer_name": "Hema Pillai",
+    "amount": 5346.32,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-08-04T04:46:59",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1059",
+    "customer_name": "Ananya Reddy",
+    "amount": 11822.26,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-08-20T23:10:42",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1044",
+    "customer_name": "Gaurav Shah",
+    "amount": 6111.37,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-17T05:47:28",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1037",
+    "customer_name": "Aishwarya Patel",
+    "amount": 4811.65,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-08-12T20:19:29",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST9007",
+    "customer_name": "Sanya Mehta",
+    "amount": -500.0,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-08-11T02:49:41",
+    "retry_count": 1,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1072",
+    "customer_name": "Kunal Gupta",
+    "amount": 7621.13,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-07-22T21:43:51",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1004",
+    "customer_name": "Rohit Patel",
+    "amount": 12287.76,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-10T06:48:21",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1014",
+    "customer_name": "Om Shah",
+    "amount": 2874.24,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-08T04:40:10",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1040",
+    "customer_name": "Gaurav Reddy",
+    "amount": 10581.67,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-08-11T16:00:42",
+    "retry_count": 3,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1021",
+    "customer_name": "Tarun Joshi",
+    "amount": 5164.38,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-28T06:59:34",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST9003",
+    "customer_name": "Mohit Shah",
+    "amount": 99.0,
+    "failure_reason": "already_refunded",
+    "failed_at": "2026-07-09T14:11:03",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1022",
+    "customer_name": "Roshni Singh",
+    "amount": 7062.62,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-07-24T14:57:33",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1048",
+    "customer_name": "Rohan Shah",
+    "amount": 21430.95,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-27T00:11:47",
+    "retry_count": 2,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1033",
+    "customer_name": "Sneha Rao",
+    "amount": 3728.43,
+    "failure_reason": "bank_timeout",
+    "failed_at": "2026-07-04T18:47:34",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1060",
+    "customer_name": "Nikhil Kumar",
+    "amount": 2911.79,
+    "failure_reason": "expired_card",
+    "failed_at": "2026-07-16T21:19:14",
+    "retry_count": 3,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1028",
+    "customer_name": "Nikhil Bhat",
+    "amount": 7116.86,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-25T03:15:12",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST9001",
+    "customer_name": "Aman Kumar",
+    "amount": 2499.0,
+    "failure_reason": "already_refunded",
+    "failed_at": "2026-08-09T17:01:58",
+    "retry_count": 0,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1015",
+    "customer_name": "Aarav Singh",
+    "amount": 6851.59,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-30T16:16:35",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1061",
+    "customer_name": "Lakshmi Pillai",
+    "amount": 2077.99,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-08-09T02:29:26",
+    "retry_count": 3,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST1017",
+    "customer_name": "Bhavna Tiwari",
+    "amount": 8765.39,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-08-10T09:53:40",
+    "retry_count": 0,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1031",
+    "customer_name": "Aditya Agarwal",
+    "amount": 7173.72,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-08-25T12:57:03",
+    "retry_count": 1,
+    "customer_tier": "high"
+  },
+  {
+    "customer_id": "CUST1020",
+    "customer_name": "Karan Malhotra",
+    "amount": 2792.85,
+    "failure_reason": "card_declined",
+    "failed_at": "2026-07-05T17:49:08",
+    "retry_count": 1,
+    "customer_tier": "low"
+  },
+  {
+    "customer_id": "CUST9008",
+    "customer_name": "Rahul Sharma",
+    "amount": 120.0,
+    "failure_reason": "insufficient_funds",
+    "failed_at": "2026-07-16T06:53:01",
+    "retry_count": 2,
+    "customer_tier": "low"
+  }
+]
