@@ -1,6 +1,8 @@
 # AI Revenue Recovery Agent 💳
 
 > **Hackathon submission** — An autonomous Python agent that detects failed subscription payments, diagnoses root causes, chooses bounded recovery interventions, executes them (mocked), and presents results in a polished Streamlit dashboard with 3D visuals.
+>    🔗 **Live Demo:** https://ai-revenue-recovery-razor-jjrmeywxyr3lanfs7r34nh.streamlit.app
+   📂 **Repository:** https://github.com/boopathi-7546/ai-revenue-recovery-razor
 
 ---
 
