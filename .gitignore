@@ -4,3 +4,7 @@ venv/
 .venv/
 *.egg-info/
 .streamlit/secrets.toml
+
+# Backend secrets & cache
+backend/.env
+backend/__pycache__/
