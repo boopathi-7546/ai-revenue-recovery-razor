@@ -60,7 +60,7 @@ const PRESETS = [
   },
 ];
 
-export function TryItLiveForm({ merchantId = 'ab023782-b676-4792-a0dc-64ecd8a53e4d', onSuccess }: TryItLiveFormProps) {
+export function TryItLiveForm({ merchantId, onSuccess }: TryItLiveFormProps) {
   const [form, setForm] = useState({
     customer_name: 'Aarav Patel',
     customer_email: 'aarav@example.com',
@@ -77,6 +77,7 @@ export function TryItLiveForm({ merchantId = 'ab023782-b676-4792-a0dc-64ecd8a53e
   const set = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
 
   const applyPreset = (p: typeof PRESETS[0]) => {
+    if (loading || !merchantId) return;
     setForm({
       customer_name: p.customer_name,
       customer_email: p.customer_email,
@@ -98,6 +99,10 @@ export function TryItLiveForm({ merchantId = 'ab023782-b676-4792-a0dc-64ecd8a53e
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!merchantId) {
+      toast.error('Merchant account is loading. Please wait a moment.');
+      return;
+    }
     if (!form.customer_name || !form.customer_id || !form.amount) {
       toast.error('Please fill in all required fields');
       return;
@@ -133,6 +138,8 @@ export function TryItLiveForm({ merchantId = 'ab023782-b676-4792-a0dc-64ecd8a53e
     outcomeBadge === 'success' ? 'badge-success' :
     outcomeBadge === 'skipped' ? 'badge-gray' : 'badge-danger';
 
+  const isControlsDisabled = loading || !merchantId;
+
   return (
     <div className="try-live-container">
       {/* Left Column: Presets and Interactive Form */}
@@ -148,6 +155,7 @@ export function TryItLiveForm({ merchantId = 'ab023782-b676-4792-a0dc-64ecd8a53e
                 type="button"
                 className="btn btn-secondary btn-sm"
                 onClick={() => applyPreset(p)}
+                disabled={isControlsDisabled}
                 style={{ fontSize: 12, padding: '6px 12px' }}
               >
                 {p.label}
@@ -160,36 +168,88 @@ export function TryItLiveForm({ merchantId = 'ab023782-b676-4792-a0dc-64ecd8a53e
           <div className="try-form-grid">
             <div className="form-group">
               <label className="form-label">Customer Name *</label>
-              <input id="try-customer-name" className="form-input" placeholder="e.g. Priya Sharma" value={form.customer_name} onChange={(e) => set('customer_name', e.target.value)} required />
+              <input
+                id="try-customer-name"
+                className="form-input"
+                placeholder="e.g. Priya Sharma"
+                value={form.customer_name}
+                onChange={(e) => set('customer_name', e.target.value)}
+                disabled={isControlsDisabled}
+                required
+              />
             </div>
             <div className="form-group">
               <label className="form-label">Customer Email</label>
-              <input id="try-customer-email" className="form-input" type="email" placeholder="priya@example.com" value={form.customer_email} onChange={(e) => set('customer_email', e.target.value)} />
+              <input
+                id="try-customer-email"
+                className="form-input"
+                type="email"
+                placeholder="priya@example.com"
+                value={form.customer_email}
+                onChange={(e) => set('customer_email', e.target.value)}
+                disabled={isControlsDisabled}
+              />
             </div>
             <div className="form-group">
               <label className="form-label">Customer ID *</label>
-              <input id="try-customer-id" className="form-input" placeholder="e.g. CUST001" value={form.customer_id} onChange={(e) => set('customer_id', e.target.value)} required />
+              <input
+                id="try-customer-id"
+                className="form-input"
+                placeholder="e.g. CUST001"
+                value={form.customer_id}
+                onChange={(e) => set('customer_id', e.target.value)}
+                disabled={isControlsDisabled}
+                required
+              />
             </div>
             <div className="form-group">
               <label className="form-label">Customer Tier</label>
-              <select id="try-customer-tier" className="form-input" value={form.customer_tier} onChange={(e) => set('customer_tier', e.target.value)}>
+              <select
+                id="try-customer-tier"
+                className="form-input"
+                value={form.customer_tier}
+                onChange={(e) => set('customer_tier', e.target.value)}
+                disabled={isControlsDisabled}
+              >
                 <option value="low">Low (below ₹5,000)</option>
                 <option value="high">High (₹5,000+)</option>
               </select>
             </div>
             <div className="form-group">
               <label className="form-label">Amount (₹) *</label>
-              <input id="try-amount" className="form-input" type="number" placeholder="e.g. 2499" value={form.amount} onChange={(e) => set('amount', e.target.value)} required min="0" />
+              <input
+                id="try-amount"
+                className="form-input"
+                type="number"
+                placeholder="e.g. 2499"
+                value={form.amount}
+                onChange={(e) => set('amount', e.target.value)}
+                disabled={isControlsDisabled}
+                required
+                min="0"
+              />
             </div>
             <div className="form-group">
               <label className="form-label">Failure Reason</label>
-              <select id="try-failure-reason" className="form-input" value={form.failure_reason} onChange={(e) => set('failure_reason', e.target.value)}>
+              <select
+                id="try-failure-reason"
+                className="form-input"
+                value={form.failure_reason}
+                onChange={(e) => set('failure_reason', e.target.value)}
+                disabled={isControlsDisabled}
+              >
                 {FAILURE_REASONS.map((r) => <option key={r} value={r}>{r.replace(/_/g, ' ')}</option>)}
               </select>
             </div>
             <div className="form-group" style={{ gridColumn: 'span 2' }}>
               <label className="form-label">Prior Retry Count</label>
-              <select id="try-retry-count" className="form-input" value={form.retry_count} onChange={(e) => set('retry_count', e.target.value)}>
+              <select
+                id="try-retry-count"
+                className="form-input"
+                value={form.retry_count}
+                onChange={(e) => set('retry_count', e.target.value)}
+                disabled={isControlsDisabled}
+              >
                 <option value="0">0 (first attempt)</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -198,8 +258,20 @@ export function TryItLiveForm({ merchantId = 'ab023782-b676-4792-a0dc-64ecd8a53e
             </div>
           </div>
 
-          <button id="try-submit-btn" type="submit" className="btn btn-primary btn-lg" disabled={loading} style={{ alignSelf: 'flex-start', marginTop: 4 }}>
-            {loading ? <><div className="spinner" /> Running Agent Pipeline...</> : <><Zap size={16} /> Run Agent Pipeline</>}
+          <button
+            id="try-submit-btn"
+            type="submit"
+            className="btn btn-primary btn-lg"
+            disabled={isControlsDisabled}
+            style={{ alignSelf: 'flex-start', marginTop: 4 }}
+          >
+            {loading ? (
+              <><div className="spinner" /> Running Agent Pipeline...</>
+            ) : !merchantId ? (
+              <><div className="spinner" /> Loading account...</>
+            ) : (
+              <><Zap size={16} /> Run Agent Pipeline</>
+            )}
           </button>
         </form>
       </div>

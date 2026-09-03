@@ -36,13 +36,17 @@ export function SignupPage() {
       if (!data.user) throw new Error('Signup failed — no user returned');
 
       // 2. Create merchant row via FastAPI (idempotent)
-      await createMerchant({
-        auth_user_id: data.user.id,
-        business_name: form.businessName,
-      });
+      try {
+        await createMerchant({
+          auth_user_id: data.user.id,
+          business_name: form.businessName,
+        });
+      } catch (err) {
+        console.warn('Merchant creation deferred to login/fallback:', err);
+      }
 
-      toast.success('Account created! Welcome aboard 🎉');
-      navigate('/dashboard');
+      toast.success('Account created successfully! Please sign in to continue.', { duration: 5000 });
+      navigate('/login');
     } catch (e: any) {
       setError(e.message || 'Signup failed. Please try again.');
     } finally {

@@ -26,7 +26,7 @@ export function Navbar({ businessName }: NavbarProps) {
 
         <div className="navbar-actions">
           {businessName && (
-            <span style={{ fontSize: 13, color: 'var(--text-secondary)', marginRight: 8 }}>
+            <span className="navbar-business-name" title={businessName}>
               {businessName}
             </span>
           )}

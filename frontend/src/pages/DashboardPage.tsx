@@ -206,7 +206,13 @@ export function DashboardPage() {
                 <h2 style={{ fontSize: 18, fontWeight: 700 }}>Try It Live</h2>
                 <p className="text-sm text-muted">Submit a failed payment and watch the agent decide in real time</p>
               </div>
-              <TryItLiveForm merchantId={merchant?.id || 'ab023782-b676-4792-a0dc-64ecd8a53e4d'} onSuccess={refresh} />
+              {!merchant?.id && (
+                <div className="alert alert-info mb-4" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div className="spinner" style={{ width: 16, height: 16 }} />
+                  <span>Loading your account...</span>
+                </div>
+              )}
+              <TryItLiveForm merchantId={merchant?.id} onSuccess={refresh} />
             </div>
           )}
         </div>

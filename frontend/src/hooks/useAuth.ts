@@ -70,14 +70,8 @@ export function useAuth(): AuthState {
       console.warn('Supabase direct merchant lookup failed', e);
     }
 
-    // 3. Fallback merchant profile so the dashboard and Try It Live never break
-    setMerchant({
-      id: 'ab023782-b676-4792-a0dc-64ecd8a53e4d',
-      business_name: (email ? email.split('@')[0] : 'Demo Merchant') || 'Demo Merchant',
-      auth_user_id: userId,
-      cost_floor: 150.0,
-      max_retry_attempts: 3,
-    });
+    // Never use a fake hardcoded merchant ID
+    setMerchant(null);
   };
 
   useEffect(() => {
