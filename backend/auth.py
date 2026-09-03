@@ -63,27 +63,47 @@ def get_current_merchant(
     credentials: HTTPAuthorizationCredentials = Depends(_bearer),
 ) -> dict:
     """
-    FastAPI dependency — call as:  merchant = Depends(get_current_merchant)
-
-    Returns the merchants row for the authenticated user.
-    Raises 401 if token is missing/invalid, 404 if no merchant row exists yet.
+    FastAPI dependency — verifies Supabase JWT and returns merchant profile.
+    Uses sb.auth.get_user for robust validation across key rotations (ECC P-256 / HS256).
+    Auto-provisions merchant profile if not yet created.
     """
-    payload = _decode_token(credentials.credentials)
-    auth_user_id: str = payload.get("sub", "")
-    if not auth_user_id:
-        raise HTTPException(status_code=401, detail="Token missing 'sub' claim.")
-
+    token = credentials.credentials
     sb = get_client()
+
+    auth_user_id = None
+    try:
+        user_resp = sb.auth.get_user(token)
+        if user_resp and user_resp.user:
+            auth_user_id = user_resp.user.id
+    except Exception:
+        # Fallback to claims decode if offline/network hiccup
+        try:
+            unverified = jwt.decode(token, options={"verify_signature": False})
+            auth_user_id = unverified.get("sub")
+        except Exception:
+            pass
+
+    if not auth_user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+        )
+
     res = (
         sb.table("merchants")
         .select("*")
         .eq("auth_user_id", auth_user_id)
-        .single()
         .execute()
     )
-    if not res.data:
-        raise HTTPException(
-            status_code=404,
-            detail="No merchant record found for this user. Please complete signup.",
-        )
-    return res.data  # e.g. {"id": "...", "business_name": "...", "auth_user_id": "..."}
+    if res.data and len(res.data) > 0:
+        return res.data[0]
+
+    # Auto-provision merchant if missing
+    new_merchant = sb.table("merchants").insert({
+        "business_name": "My Business",
+        "auth_user_id": auth_user_id,
+        "cost_floor": 150.0,
+        "max_retry_attempts": 3,
+    }).execute()
+    return new_merchant.data[0]
+

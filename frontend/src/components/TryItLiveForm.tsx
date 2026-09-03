@@ -4,7 +4,7 @@ import { submitFailedPayment, processPayment } from '../api';
 import toast from 'react-hot-toast';
 
 interface TryItLiveFormProps {
-  merchantId: string;
+  merchantId?: string;
   onSuccess?: () => void;
 }
 
@@ -17,13 +17,56 @@ const FAILURE_REASONS = [
   'duplicate_charge',
 ];
 
-export function TryItLiveForm({ merchantId, onSuccess }: TryItLiveFormProps) {
+const PRESETS = [
+  {
+    label: '⚡ Card Declined',
+    customer_name: 'Aarav Patel',
+    customer_email: 'aarav@example.com',
+    customer_id: 'CUST-001',
+    customer_tier: 'low' as const,
+    amount: '1850',
+    failure_reason: 'card_declined',
+    retry_count: '0',
+  },
+  {
+    label: '⏳ Insufficient Funds',
+    customer_name: 'Ananya Roy',
+    customer_email: 'ananya@example.com',
+    customer_id: 'CUST-002',
+    customer_tier: 'low' as const,
+    amount: '950',
+    failure_reason: 'insufficient_funds',
+    retry_count: '1',
+  },
+  {
+    label: '🛡️ Duplicate Charge',
+    customer_name: 'Rohan Verma',
+    customer_email: 'rohan@example.com',
+    customer_id: 'CUST-003',
+    customer_tier: 'high' as const,
+    amount: '6200',
+    failure_reason: 'duplicate_charge',
+    retry_count: '0',
+  },
+  {
+    label: '💎 VIP High Value',
+    customer_name: 'Vikram Mehta',
+    customer_email: 'vikram@example.com',
+    customer_id: 'CUST-004',
+    customer_tier: 'high' as const,
+    amount: '14500',
+    failure_reason: 'bank_timeout',
+    retry_count: '0',
+  },
+];
+
+export function TryItLiveForm({ merchantId = 'ab023782-b676-4792-a0dc-64ecd8a53e4d', onSuccess }: TryItLiveFormProps) {
   const [form, setForm] = useState({
-    customer_name: '',
-    customer_email: '',
-    customer_id: '',
+    customer_name: 'Aarav Patel',
+    customer_email: 'aarav@example.com',
+    customer_id: 'CUST-001',
     customer_tier: 'low' as 'low' | 'high',
-    amount: '',
+    amount: '1850',
     failure_reason: 'card_declined',
     retry_count: '0',
   });
@@ -31,6 +74,19 @@ export function TryItLiveForm({ merchantId, onSuccess }: TryItLiveFormProps) {
   const [result, setResult] = useState<any>(null);
 
   const set = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
+
+  const applyPreset = (p: typeof PRESETS[0]) => {
+    setForm({
+      customer_name: p.customer_name,
+      customer_email: p.customer_email,
+      customer_id: p.customer_id,
+      customer_tier: p.customer_tier,
+      amount: p.amount,
+      failure_reason: p.failure_reason,
+      retry_count: p.retry_count,
+    });
+    setResult(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,6 +127,25 @@ export function TryItLiveForm({ merchantId, onSuccess }: TryItLiveFormProps) {
 
   return (
     <div>
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          Quick Fill Test Scenarios
+        </div>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          {PRESETS.map((p) => (
+            <button
+              key={p.label}
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={() => applyPreset(p)}
+              style={{ fontSize: 12, padding: '6px 12px' }}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <form className="try-form" onSubmit={handleSubmit} id="try-it-live-form">
         <div className="try-form-grid">
           <div className="form-group">

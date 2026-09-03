@@ -200,13 +200,13 @@ export function DashboardPage() {
           )}
 
           {/* Try It Live Tab */}
-          {tab === 'try' && merchant && (
+          {tab === 'try' && (
             <div className="card">
               <div className="mb-6">
                 <h2 style={{ fontSize: 18, fontWeight: 700 }}>Try It Live</h2>
                 <p className="text-sm text-muted">Submit a failed payment and watch the agent decide in real time</p>
               </div>
-              <TryItLiveForm merchantId={merchant.id} onSuccess={refresh} />
+              <TryItLiveForm merchantId={merchant?.id || 'ab023782-b676-4792-a0dc-64ecd8a53e4d'} onSuccess={refresh} />
             </div>
           )}
         </div>

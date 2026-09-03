@@ -97,8 +97,8 @@ def create_failed_payment(
     merchant: dict = Depends(get_current_merchant),
 ):
     """Manually register a failed payment (used by 'Try It Live' single-record flow)."""
-    if payload.merchant_id != merchant["id"]:
-        raise HTTPException(status_code=403, detail="merchant_id mismatch")
+    # Always associate with the authenticated merchant
+    payload.merchant_id = merchant["id"]
     sb = get_client()
     row = payload.model_dump()
     row.setdefault("failed_at", datetime.now(timezone.utc).isoformat())
@@ -112,10 +112,9 @@ def list_failed_payments(
     status: str | None = None,
     merchant: dict = Depends(get_current_merchant),
 ):
-    if merchant["id"] != merchant_id:
-        raise HTTPException(status_code=403, detail="Access denied")
+    effective_merchant_id = merchant["id"]
     sb = get_client()
-    q = sb.table("failed_payments").select("*").eq("merchant_id", merchant_id)
+    q = sb.table("failed_payments").select("*").eq("merchant_id", effective_merchant_id)
     if status:
         q = q.eq("status", status)
     res = q.order("created_at", desc=True).execute()
@@ -203,13 +202,12 @@ def get_audit_log(
     limit: int = 100,
     merchant: dict = Depends(get_current_merchant),
 ):
-    if merchant["id"] != merchant_id:
-        raise HTTPException(status_code=403, detail="Access denied")
+    effective_merchant_id = merchant["id"]
     sb = get_client()
     res = (
         sb.table("audit_log")
         .select("*, failed_payments(customer_name, amount, failure_reason, customer_tier, customer_id)")
-        .eq("merchant_id", merchant_id)
+        .eq("merchant_id", effective_merchant_id)
         .order("timestamp", desc=True)
         .limit(limit)
         .execute()
@@ -223,13 +221,12 @@ def get_metrics(
     merchant: dict = Depends(get_current_merchant),
 ):
     """Aggregate metrics for the dashboard headline cards."""
-    if merchant["id"] != merchant_id:
-        raise HTTPException(status_code=403, detail="Access denied")
+    effective_merchant_id = merchant["id"]
     sb = get_client()
     logs = (
         sb.table("audit_log")
         .select("outcome, action_taken, failed_payments(amount)")
-        .eq("merchant_id", merchant_id)
+        .eq("merchant_id", effective_merchant_id)
         .execute()
     ).data or []
 
@@ -259,13 +256,12 @@ def get_exceptions(
     merchant: dict = Depends(get_current_merchant),
 ):
     """Rows the agent skipped — matches your dashboard's Exceptions tab."""
-    if merchant["id"] != merchant_id:
-        raise HTTPException(status_code=403, detail="Access denied")
+    effective_merchant_id = merchant["id"]
     sb = get_client()
     res = (
         sb.table("audit_log")
         .select("*, failed_payments(customer_name, amount, failure_reason, merchant_id)")
-        .eq("merchant_id", merchant_id)
+        .eq("merchant_id", effective_merchant_id)
         .eq("outcome", "skipped")
         .order("timestamp", desc=True)
         .execute()
