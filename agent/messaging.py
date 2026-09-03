@@ -121,3 +121,16 @@ def msg_max_attempts(name: str, amount: float) -> dict:
             f"Case manual review ke liye flag kiya gaya hai."
         ),
     }
+
+
+def msg_dedup_skip(name: str, amount: float) -> dict:
+    return {
+        "english": (
+            f"No action taken for {name} (₹{amount:,.2f}) — a recovery attempt "
+            f"was already made within the last 24h. Skipping to avoid duplicate outreach."
+        ),
+        "hinglish": (
+            f"{name} ji ke liye koi action nahi liya — pichhle 24 ghanton mein pehle se "
+            f"ek attempt ho chuka hai. Duplicate outreach se bachne ke liye skip kiya gaya."
+        ),
+    }

@@ -10,6 +10,13 @@ Rules:
 
 from datetime import datetime, timedelta
 from typing import Optional
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Ensure backend/.env is loaded regardless of import order.
+# override=False means a real env-var set in the shell always wins.
+load_dotenv(Path(__file__).parent.parent / "backend" / ".env", override=False)
 
 MAX_ATTEMPTS       = 3
 DEDUP_WINDOW_HOURS = 24
@@ -67,7 +74,9 @@ def check_guardrails(record: dict, failure_class: str) -> tuple[bool, str]:
         )
 
     # ── Guardrail 4: 24-hour dedup window ─────────────────────────────────────
-    if cid in _last_action_ts:
+    if os.getenv("DISABLE_DEDUP", "false").lower() == "true":
+        pass  # Bypass dedup for testing — set DISABLE_DEDUP=true in .env
+    elif cid in _last_action_ts:
         last_ts = _last_action_ts[cid]
         # Simulate: use failed_at as "now" to allow deterministic testing
         now = _parse_ts(record.get("failed_at", ""))

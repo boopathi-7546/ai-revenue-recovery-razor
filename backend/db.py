@@ -7,11 +7,13 @@ Never expose this key to any frontend code.
 
 import os
 from functools import lru_cache
+from pathlib import Path
 
 from dotenv import load_dotenv
 from supabase import create_client, Client
 
-load_dotenv()
+_ENV_PATH = Path(__file__).parent / ".env"
+load_dotenv(_ENV_PATH, override=True)   # loads ALL keys from backend/.env into os.environ
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")

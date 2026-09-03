@@ -72,7 +72,7 @@ def _seed_guardrail_state(merchant_id: str, customer_id: str):
     guardrails._last_action_ts[customer_id] = last_ts.replace(tzinfo=None)
 
 
-def process_failed_payment(failed_payment_id: str) -> dict:
+def process_failed_payment(failed_payment_id: str, merchant_id: str | None = None) -> dict:
     """
     Runs one record through: seed state -> decide -> execute -> persist.
     Returns the full decision + execution result for the API response.
@@ -89,6 +89,8 @@ def process_failed_payment(failed_payment_id: str) -> dict:
     fp = fp_res.data
     if not fp:
         raise ValueError(f"failed_payment {failed_payment_id} not found")
+    if merchant_id and fp.get("merchant_id") != merchant_id:
+        raise ValueError(f"failed_payment {failed_payment_id} does not belong to merchant {merchant_id}")
 
     customer_id = fp.get("customer_id") or fp.get("customer_email") or fp["id"]
 

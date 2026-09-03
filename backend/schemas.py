@@ -2,6 +2,14 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 
+class MerchantSignup(BaseModel):
+    """Posted by frontend immediately after Supabase Auth.signUp() succeeds."""
+    auth_user_id: str  # Supabase user UUID (from session.user.id)
+    business_name: str
+    cost_floor: float = 150.0
+    max_retry_attempts: int = 3
+
+
 class MerchantCreate(BaseModel):
     business_name: str
     auth_user_id: Optional[str] = None

@@ -77,8 +77,12 @@ def decide_intervention(record: dict) -> dict:
             action = "skip_cost_floor"
             msgs   = M.msg_cost_skip(name, amount)
         else:
+            # Dedup guard fires here (and any future unnamed guardrail)
             action = "skip_guardrail"
-            msgs   = M.msg_cost_skip(name, amount)
+            if "Dedup guard" in guardrail_msg:
+                msgs = M.msg_dedup_skip(name, amount)
+            else:
+                msgs = M.msg_cost_skip(name, amount)  # safe fallback for unknowns
 
         return {
             "action":        action,
