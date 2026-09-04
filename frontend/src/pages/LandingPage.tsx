@@ -40,15 +40,15 @@ export function LandingPage() {
               <a href="#features" className="btn btn-secondary btn-lg">See how it works</a>
             </div>
 
-            {/* Live stats strip */}
+            {/* Illustrative stats strip — sample figures, not live counters */}
             <div style={{ display: 'flex', gap: 32, marginTop: 48 }}>
               {[
-                { val: '₹2.4L+', label: 'Recovered (demo)' },
-                { val: '83%',    label: 'Recovery rate' },
-                { val: '80',     label: 'Payments processed' },
+                { val: '₹2.4L+', label: 'Recovered (sample)' },
+                { val: '83%',    label: 'Recovery rate (sample)' },
+                { val: '80',     label: 'Payments processed (sample)' },
               ].map((s) => (
                 <div key={s.label}>
-                  <div style={{ fontSize: 24, fontWeight: 800, fontFamily: "'Space Grotesk', sans-serif", color: 'var(--accent)' }}>{s.val}</div>
+                  <div style={{ fontSize: 24, fontWeight: 700, fontFamily: "'Fraunces', serif", color: 'var(--accent)' }}>{s.val}</div>
                   <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{s.label}</div>
                 </div>
               ))}
@@ -67,11 +67,11 @@ export function LandingPage() {
           <div className="features-grid">
             {[
               { icon: <Bot size={22} style={{ color: 'var(--accent)' }} />, title: 'Detect', desc: 'Real-time Razorpay webhook ingestion. Every payment.failed event is captured instantly.' },
-              { icon: <GitBranch size={22} style={{ color: '#8b5cf6' }} />, title: 'Diagnose', desc: 'AI classifies failure reason — retryable, non-retryable, or edge case — with full auditability.' },
-              { icon: <ShieldCheck size={22} style={{ color: '#10b981' }} />, title: 'Guardrails', desc: 'Hard limits enforced: max 3 attempts, 24h dedup, cost floor, invalid data skip.' },
-              { icon: <Repeat size={22} style={{ color: '#f59e0b' }} />, title: 'Decide', desc: 'Optimal intervention chosen per customer tier and A/B variant — immediate retry, 3-day retry, payment link, or escalate.' },
-              { icon: <Bell size={22} style={{ color: '#ec4899' }} />, title: 'Execute', desc: 'Outreach messages generated in English & Hinglish. Every action logged with full reasoning.' },
-              { icon: <BarChart2 size={22} style={{ color: '#3b82f6' }} />, title: 'Measure', desc: 'Real-time dashboard tracks recovery rate, A/B results, action distribution, and exceptions.' },
+              { icon: <GitBranch size={22} style={{ color: 'var(--accent-2)' }} />, title: 'Diagnose', desc: 'AI classifies failure reason — retryable, non-retryable, or edge case — with full auditability.' },
+              { icon: <ShieldCheck size={22} style={{ color: 'var(--success)' }} />, title: 'Guardrails', desc: 'Hard limits enforced: max 3 attempts, 24h dedup, cost floor, invalid data skip.' },
+              { icon: <Repeat size={22} style={{ color: 'var(--warning)' }} />, title: 'Decide', desc: 'Optimal intervention chosen per customer tier and A/B variant — immediate retry, 3-day retry, payment link, or escalate.' },
+              { icon: <Bell size={22} style={{ color: 'var(--danger)' }} />, title: 'Execute', desc: 'Outreach messages generated in English & Hinglish. Every action logged with full reasoning.' },
+              { icon: <BarChart2 size={22} style={{ color: 'var(--accent)' }} />, title: 'Measure', desc: 'Real-time dashboard tracks recovery rate, A/B results, action distribution, and exceptions.' },
             ].map((f) => (
               <div key={f.title} className="feature-card">
                 <div className="feature-icon-wrap">{f.icon}</div>
