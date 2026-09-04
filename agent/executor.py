@@ -4,7 +4,15 @@ All actions are logged to console and return a simulated outcome.
 """
 
 import random
+import sys
 from datetime import datetime
+
+# Ensure stdout can handle all characters on Windows cp1252 terminals
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
 # Simulated success rates per action type (for realism in mock data)
 MOCK_SUCCESS_RATES = {
@@ -57,22 +65,22 @@ def execute_intervention(record: dict, decision: dict) -> dict:
 
     if action == "immediate_retry":
         exec_log = (
-            f"[MOCK API] Retry payment for {cid} ({name}) ₹{amount:,.2f} — "
-            f"{'✓ APPROVED' if succeeded else '✗ DECLINED again'}"
+            f"[MOCK API] Retry payment for {cid} ({name}) Rs{amount:,.2f} — "
+            f"{'APPROVED' if succeeded else 'DECLINED again'}"
         )
     elif action == "retry_in_3_days":
         exec_log = (
-            f"[MOCK JOB] Scheduled 3-day retry for {cid} ({name}) ₹{amount:,.2f} — "
+            f"[MOCK JOB] Scheduled 3-day retry for {cid} ({name}) Rs{amount:,.2f} — "
             f"job_id=JOB_{cid}_72H queued {'successfully' if succeeded else '(queue error)'}"
         )
     elif action == "send_payment_update":
         exec_log = (
-            f"[MOCK SMS] Payment-update link sent to {cid} ({name}) ₹{amount:,.2f} — "
+            f"[MOCK SMS] Payment-update link sent to {cid} ({name}) Rs{amount:,.2f} — "
             f"delivery {'confirmed' if succeeded else 'failed (invalid number)'}"
         )
     elif action == "escalate_human":
         exec_log = (
-            f"[MOCK CRM] Escalation ticket created for {cid} ({name}) ₹{amount:,.2f} — "
+            f"[MOCK CRM] Escalation ticket created for {cid} ({name}) Rs{amount:,.2f} — "
             f"ticket_id=TKT_{cid} {'assigned to agent' if succeeded else '(queue full, retry later)'}"
         )
     else:
