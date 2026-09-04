@@ -6,10 +6,10 @@ interface ExceptionCardProps {
 }
 
 const ACTION_META: Record<string, { label: string; color: string; icon: typeof AlertTriangle }> = {
-  skip_non_retryable: { label: 'Non-retryable', color: '#ef4444', icon: XCircle },
-  skip_invalid_data:  { label: 'Invalid Data',  color: '#f59e0b', icon: AlertCircle },
-  skip_cost_floor:    { label: 'Cost Floor',    color: '#64748b', icon: AlertTriangle },
-  skip_max_attempts:  { label: 'Max Attempts',  color: '#8b5cf6', icon: AlertTriangle },
+  skip_non_retryable: { label: 'Non-retryable', color: '#C1442E', icon: XCircle },
+  skip_invalid_data:  { label: 'Invalid Data',  color: '#D99A3D', icon: AlertCircle },
+  skip_cost_floor:    { label: 'Cost Floor',    color: '#6B6355', icon: AlertTriangle },
+  skip_max_attempts:  { label: 'Max Attempts',  color: '#B1502F', icon: AlertTriangle },
 };
 
 const fmt = (a: number) => `₹${a.toLocaleString('en-IN')}`;

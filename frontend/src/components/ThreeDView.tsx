@@ -58,8 +58,8 @@ export function ThreeDView({ auditLog }: ThreeDViewProps) {
 
     // ── Scene ───────────────────────────────────────────────────────────────
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a0e1a);
-    scene.fog = new THREE.FogExp2(0x0a0e1a, 0.04);
+    scene.background = new THREE.Color(0x0B0E13);
+    scene.fog = new THREE.FogExp2(0x0B0E13, 0.04);
 
     const W = container.clientWidth;
     const H = container.clientHeight;
@@ -80,26 +80,26 @@ export function ThreeDView({ auditLog }: ThreeDViewProps) {
     dirLight.position.set(10, 18, 8);
     dirLight.castShadow = true;
     scene.add(dirLight);
-    const fill = new THREE.PointLight(0x4f8ef7, 0.6, 40);
+    const fill = new THREE.PointLight(0xE4A62F, 0.5, 40);
     fill.position.set(-8, 6, -4);
     scene.add(fill);
-    const rim = new THREE.PointLight(0x00d4aa, 0.5, 30);
+    const rim = new THREE.PointLight(0xB1502F, 0.4, 30);
     rim.position.set(8, 3, 6);
     scene.add(rim);
 
     // ── Grid floor ──────────────────────────────────────────────────────────
-    scene.add(new THREE.GridHelper(32, 32, 0x1e293b, 0x1e293b));
+    scene.add(new THREE.GridHelper(32, 32, 0x232B34, 0x232B34));
 
     // ── Materials ───────────────────────────────────────────────────────────
     const matRisk = new THREE.MeshPhongMaterial({
-      color: 0xff4d6d, emissive: 0x3d0010, shininess: 60,
+      color: 0xC1442E, emissive: 0x3D1208, shininess: 60,
       transparent: true, opacity: 0.92,
     });
     const matRec = new THREE.MeshPhongMaterial({
-      color: 0x00d4aa, emissive: 0x003326, shininess: 80,
+      color: 0x5B8C5A, emissive: 0x122612, shininess: 80,
       transparent: true, opacity: 0.92,
     });
-    const matBase = new THREE.MeshPhongMaterial({ color: 0x1e293b, shininess: 20 });
+    const matBase = new THREE.MeshPhongMaterial({ color: 0x232B34, shininess: 20 });
 
     // ── Bars ────────────────────────────────────────────────────────────────
     const barMeshes: THREE.Mesh[] = [];
@@ -110,11 +110,11 @@ export function ThreeDView({ auditLog }: ThreeDViewProps) {
     const tooltip = document.createElement('div');
     Object.assign(tooltip.style, {
       position: 'absolute',
-      background: 'rgba(17,24,39,0.95)',
-      border: '1px solid #1e293b',
+      background: 'rgba(26,33,41,0.96)',
+      border: '1px solid rgba(228,166,47,0.25)',
       borderRadius: '8px',
       padding: '10px 14px',
-      color: '#f1f5f9',
+      color: '#F5F1E8',
       fontSize: '12px',
       pointerEvents: 'none',
       display: 'none',
@@ -160,7 +160,7 @@ export function ThreeDView({ auditLog }: ThreeDViewProps) {
       const ctx = cv2d.getContext('2d')!;
       ctx.fillStyle = 'rgba(0,0,0,0)';
       ctx.fillRect(0, 0, 256, 64);
-      ctx.fillStyle = '#94a3b8';
+      ctx.fillStyle = '#A69A88';
       ctx.font = 'bold 18px Inter,sans-serif';
       ctx.textAlign = 'center';
       const short = d.reason.length > 12 ? d.reason.slice(0, 12) + '…' : d.reason;
@@ -212,7 +212,7 @@ export function ThreeDView({ auditLog }: ThreeDViewProps) {
         tooltip.style.display = 'block';
         tooltip.style.left    = `${e.clientX - rect.left + 14}px`;
         tooltip.style.top     = `${e.clientY - rect.top  - 10}px`;
-        const color = ud.type === 'At Risk' ? '#ff4d6d' : '#00d4aa';
+        const color = ud.type === 'At Risk' ? '#C1442E' : '#5B8C5A';
         tooltip.innerHTML = `<strong>${ud.label}</strong><br>
           <span style="color:#94a3b8">${ud.type}:</span>
           <span style="color:${color};font-weight:700">
@@ -299,19 +299,19 @@ export function ThreeDView({ auditLog }: ThreeDViewProps) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ fontSize: 12, color: 'var(--text-muted)', display: 'flex', gap: 24, alignItems: 'center', flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ display: 'inline-block', width: 12, height: 12, borderRadius: 3, background: '#ff4d6d' }} />
+          <span style={{ display: 'inline-block', width: 12, height: 12, borderRadius: 3, background: '#C1442E' }} />
           At Risk
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ display: 'inline-block', width: 12, height: 12, borderRadius: 3, background: '#00d4aa' }} />
+          <span style={{ display: 'inline-block', width: 12, height: 12, borderRadius: 3, background: '#5B8C5A' }} />
           Recovered
         </div>
-        <span style={{ color: '#334155', fontSize: 11 }}>🖱 Drag to orbit · Scroll to zoom · Hover bars for details</span>
+        <span style={{ color: '#6B6355', fontSize: 11 }}>🖱 Drag to orbit · Scroll to zoom · Hover bars for details</span>
       </div>
       <div
         ref={mountRef}
         id="threed-canvas-mount"
-        style={{ width: '100%', height: 520, borderRadius: 12, overflow: 'hidden', position: 'relative', background: '#0a0e1a' }}
+        style={{ width: '100%', height: 520, borderRadius: 12, overflow: 'hidden', position: 'relative', background: '#0B0E13' }}
       />
       {auditLog.length === 0 && (
         <p style={{ color: 'var(--text-muted)', textAlign: 'center', paddingTop: 16 }}>
