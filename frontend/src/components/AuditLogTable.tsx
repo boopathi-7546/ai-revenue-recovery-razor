@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, Download } from 'lucide-react';
 import type { AuditRow } from '../api';
 
 interface AuditLogTableProps {
@@ -41,10 +41,34 @@ export function AuditLogTable({ rows }: AuditLogTableProps) {
   const fmt = (ts: string) => new Date(ts).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' });
   const fmtAmount = (a?: number) => a != null ? `₹${a.toLocaleString('en-IN')}` : '—';
 
+  const downloadCSV = () => {
+    const headers = ['customer_name', 'customer_id', 'amount', 'failure_reason', 'action_taken', 'outcome', 'variant', 'timestamp'];
+    const rows = filtered.map((r) => [
+      r.failed_payments?.customer_name ?? '',
+      r.failed_payments?.customer_id ?? '',
+      r.failed_payments?.amount ?? '',
+      r.failed_payments?.failure_reason ?? '',
+      r.action_taken,
+      r.outcome,
+      r.variant ?? '',
+      r.timestamp,
+    ]);
+    const csv = [headers, ...rows]
+      .map((row) => row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = `audit_log_filtered_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div>
       {/* Filters */}
-      <div className="flex gap-3 mb-4" style={{ flexWrap: 'wrap' }}>
+      <div className="flex gap-3 mb-4" style={{ flexWrap: 'wrap', alignItems: 'center' }}>
         <div style={{ position: 'relative', flex: 1, minWidth: 200 }}>
           <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
@@ -65,6 +89,16 @@ export function AuditLogTable({ rows }: AuditLogTableProps) {
         <select id="audit-action-filter" className="form-input" style={{ width: 180 }} value={actionFilter} onChange={(e) => setActionFilter(e.target.value)}>
           {actions.map((a) => <option key={a} value={a}>{a === 'all' ? 'All actions' : a.replace(/_/g, ' ')}</option>)}
         </select>
+        <button
+          id="audit-download-csv-btn"
+          className="btn btn-secondary btn-sm"
+          onClick={downloadCSV}
+          disabled={filtered.length === 0}
+          title={`Download ${filtered.length} filtered rows as CSV`}
+          style={{ whiteSpace: 'nowrap' }}
+        >
+          <Download size={13} /> Download CSV ({filtered.length})
+        </button>
       </div>
 
       <p className="text-sm text-muted mb-2">{filtered.length} records</p>

@@ -1,18 +1,25 @@
-import { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import {
   TrendingUp, DollarSign, CheckCircle2, XCircle, AlertTriangle,
-  RefreshCw, BarChart2, FileText, Zap, Activity
+  RefreshCw, BarChart2, FileText, Zap, Activity, Box
 } from 'lucide-react';
 import { Navbar } from '../components/Navbar';
 import { MetricCard } from '../components/MetricCard';
-import { OutcomePieChart, ActionBarChart } from '../components/RecoveryChart';
+import {
+  OutcomePieChart, ActionBarChart,
+  RecoveryTrendChart, ABVariantChart, FailureReasonChart,
+} from '../components/RecoveryChart';
 import { AuditLogTable } from '../components/AuditLogTable';
 import { ExceptionsList } from '../components/ExceptionCard';
 import { TryItLiveForm } from '../components/TryItLiveForm';
 import { useAuth } from '../hooks/useAuth';
 import { useDashboard } from '../hooks/useDashboard';
 
-type Tab = 'overview' | 'audit' | 'exceptions' | 'try';
+// Lazy-loaded so Three.js (~600KB) is split into its own chunk and only
+// downloaded when the user actually clicks the "3D View" tab.
+const ThreeDView = React.lazy(() => import('../components/ThreeDView'));
+
+type Tab = 'overview' | 'audit' | 'exceptions' | 'try' | '3d';
 
 export function DashboardPage() {
   const { merchant } = useAuth();
@@ -56,6 +63,7 @@ export function DashboardPage() {
               { key: 'audit',      label: 'Audit Log',   icon: <FileText size={14} /> },
               { key: 'exceptions', label: 'Exceptions',  icon: <AlertTriangle size={14} /> },
               { key: 'try',        label: 'Try It Live', icon: <Zap size={14} /> },
+              { key: '3d',         label: '3D View',     icon: <Box size={14} /> },
             ] as const).map((t) => (
               <button
                 key={t.key}
@@ -143,10 +151,19 @@ export function DashboardPage() {
 
               {/* Charts */}
               {auditLog.length > 0 ? (
-                <div className="charts-grid">
-                  <OutcomePieChart auditLog={auditLog} />
-                  <ActionBarChart auditLog={auditLog} />
-                </div>
+                <>
+                  <div className="charts-grid">
+                    <OutcomePieChart auditLog={auditLog} />
+                    <ActionBarChart auditLog={auditLog} />
+                  </div>
+                  <div className="charts-grid" style={{ marginTop: 16 }}>
+                    <RecoveryTrendChart auditLog={auditLog} />
+                    <ABVariantChart auditLog={auditLog} />
+                  </div>
+                  <div style={{ marginTop: 16 }}>
+                    <FailureReasonChart auditLog={auditLog} />
+                  </div>
+                </>
               ) : !loading ? (
                 <div className="empty-state card">
                   <Activity size={40} />
@@ -213,6 +230,23 @@ export function DashboardPage() {
                 </div>
               )}
               <TryItLiveForm merchantId={merchant?.id} onSuccess={refresh} />
+            </div>
+          )}
+
+          {/* 3D View Tab */}
+          {tab === '3d' && (
+            <div className="card">
+              <div className="mb-6">
+                <h2 style={{ fontSize: 18, fontWeight: 700 }}>🌐 3D Risk vs Recovery</h2>
+                <p className="text-sm text-muted">Interactive Three.js scene — drag to orbit, scroll to zoom</p>
+              </div>
+              <Suspense fallback={
+                <div className="flex-center" style={{ padding: 60 }}>
+                  <div className="spinner" style={{ width: 32, height: 32 }} />
+                </div>
+              }>
+                <ThreeDView auditLog={auditLog} />
+              </Suspense>
             </div>
           )}
         </div>
